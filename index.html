@@ -3,274 +3,399 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tela P2P — sua tela, direto no PC dos amigos</title>
-  <meta name="description" content="Transmita sua tela em até 4K de graça, com voz e chat, direto de PC para PC. Sem conta, sem servidor de ninguém, sem verificação de idade.">
-  <meta property="og:title" content="Tela P2P — sua tela, direto no PC dos amigos">
-  <meta property="og:description" content="Transmissão de tela em até 4K, voz com supressão de ruído por IA e chat por cima do jogo. De graça, sem conta.">
-  <meta property="og:image" content="assets/sala.webp">
-  <meta name="theme-color" content="#0b0c09">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D6C45C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5h13v10H3zM8 19h13V9'/%3E%3C/svg%3E">
+  <title>Nebula — sua tela, direto no PC dos amigos</title>
+  <meta name="description" content="Transmita a partida em até 4K, fale com a equipe com voz limpa e entre na sala dos amigos com um clique. De graça, sem anúncios, com vídeo e voz direto de PC para PC.">
+  <meta property="og:title" content="Nebula — sua tela, direto no PC dos amigos">
+  <meta property="og:description" content="Transmissão de tela em até 4K, voz com supressão de ruído por IA, salas dos amigos ao vivo e mensagens criptografadas. De graça, para Windows.">
+  <meta property="og:image" content="assets/videos/2-transmitir-e-assistir.jpg">
+  <meta name="theme-color" content="#0B0D10">
+  <link rel="icon" type="image/png" href="assets/nebula-icone.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: { sans: ['Geist', 'system-ui', 'sans-serif'], mono: ['"Geist Mono"', 'ui-monospace', 'monospace'] },
-          colors: { ink: '#0b0c09', panel: '#15170f', line: 'rgba(255,255,255,.08)', gold: '#D6C45C', mint: '#A6D089' },
+          fontFamily: { sans: ['Sora', 'system-ui', 'sans-serif'], mono: ['"Share Tech Mono"', 'ui-monospace', 'monospace'] },
+          // As cores do app: o fundo do tema Carta Estelar e as três estrelas da logo
+          colors: { ink: '#0B0D10', panel: '#13161B', line: 'rgba(255,255,255,.08)', ciano: '#22E5FA', lilas: '#8B93FF', coral: '#FF6B61', texto: '#D7DCE3' },
         },
       },
     };
   </script>
   <style>
-    /* Fundo: grade sutil que some nas bordas + brilhos nas cores do app */
-    .grid-bg { background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-      background-size: 56px 56px; mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%); }
-    .glow-gold { background: radial-gradient(closest-side, rgba(214,196,92,.28), transparent); }
-    .glow-mint { background: radial-gradient(closest-side, rgba(166,208,137,.18), transparent); }
-    .text-shine { background: linear-gradient(180deg, #fff 30%, rgba(255,255,255,.55)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .text-gold { background: linear-gradient(90deg, #f1e38d, #D6C45C 45%, #A6D089); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    /* Botão com a borda luminosa girando (o "beam" dos botões da Aura) */
-    @property --a { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
-    .beam { position: relative; isolation: isolate; }
-    .beam::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; z-index: -1; padding: 1px;
-      background: conic-gradient(from var(--a), transparent 0 60%, #f1e38d 75%, #A6D089 85%, transparent 95%);
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
-      animation: spin 4s linear infinite; }
-    @keyframes spin { to { --a: 360deg; } }
-    .glass { background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.08); backdrop-filter: blur(12px); }
-    .shot { box-shadow: 0 40px 120px -30px rgba(214,196,92,.35), 0 0 0 1px rgba(255,255,255,.08); }
-    .tilt { transform: perspective(1800px) rotateX(8deg); transform-origin: top center; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
-    .tilt:hover { transform: perspective(1800px) rotateX(0deg); }
+    /* Céu: estrelas fixas e duas nebulosas nas cores da logo */
+    .ceu { background-image:
+      radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.55) 50%, transparent 51%), radial-gradient(1px 1px at 78% 9%, rgba(255,255,255,.5) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 88% 34%, rgba(255,255,255,.7) 50%, transparent 51%), radial-gradient(1px 1px at 6% 62%, rgba(255,255,255,.4) 50%, transparent 51%),
+      radial-gradient(1px 1px at 40% 82%, rgba(255,255,255,.35) 50%, transparent 51%), radial-gradient(1px 1px at 63% 45%, rgba(255,255,255,.3) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 93% 70%, rgba(255,255,255,.55) 50%, transparent 51%), radial-gradient(1px 1px at 24% 40%, rgba(255,255,255,.35) 50%, transparent 51%),
+      radial-gradient(1px 1px at 52% 12%, rgba(255,255,255,.45) 50%, transparent 51%), radial-gradient(1px 1px at 33% 66%, rgba(255,255,255,.3) 50%, transparent 51%);
+      background-size: 900px 700px; }
+    .nebulosa-lilas { background: radial-gradient(closest-side, rgba(139,147,255,.22), transparent); }
+    .nebulosa-ciano { background: radial-gradient(closest-side, rgba(34,229,250,.16), transparent); }
+    .nebulosa-coral { background: radial-gradient(closest-side, rgba(255,107,97,.12), transparent); }
+    .texto-brilho { background: linear-gradient(180deg, #fff 35%, rgba(255,255,255,.6)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .texto-marca { background: linear-gradient(90deg, #22E5FA, #8B93FF 55%, #FF6B61); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .vidro { background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.018)); border: 1px solid rgba(255,255,255,.08); backdrop-filter: blur(12px); }
+    /* Moldura dos vídeos: uma janela do app, com a sombra na cor da marca */
+    .janela { box-shadow: 0 40px 120px -40px rgba(34,229,250,.35), 0 0 0 1px rgba(255,255,255,.08); }
+    .janela-lilas { box-shadow: 0 40px 120px -40px rgba(139,147,255,.4), 0 0 0 1px rgba(255,255,255,.08); }
+    /* Botão principal: borda que acende ao passar o mouse */
+    .btn-marca { background: #22E5FA; color: #04161a; box-shadow: 0 0 0 1px rgba(34,229,250,.4), 0 10px 30px -10px rgba(34,229,250,.6); }
+    .btn-marca:hover { filter: brightness(1.08); box-shadow: 0 0 0 1px rgba(34,229,250,.7), 0 14px 40px -10px rgba(34,229,250,.75); }
+    /* Selo AO VIVO */
+    .ao-vivo::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 10px currentColor; vertical-align: middle; }
+    /* Cantos de mira nos cartões de recurso (o HUD do app, sem exagero) */
+    .mira { position: relative; }
+    .mira::before, .mira::after { content: ""; position: absolute; width: 14px; height: 14px; border-color: rgba(34,229,250,.5); pointer-events: none; }
+    .mira::before { top: 10px; left: 10px; border-top: 1px solid; border-left: 1px solid; }
+    .mira::after { bottom: 10px; right: 10px; border-bottom: 1px solid; border-right: 1px solid; }
     /* Aparecer ao rolar */
-    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
-    .reveal.in { opacity: 1; transform: none; }
-    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } .beam::before { animation: none; } .tilt { transform: none; } }
+    .surgir { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .surgir.dentro { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .surgir { opacity: 1; transform: none; transition: none; } }
     details summary::-webkit-details-marker { display: none; }
+    video { background: #0B0D10; }
   </style>
 </head>
-<body class="bg-ink text-white font-sans antialiased selection:bg-gold/30">
+<body class="bg-ink text-white font-sans antialiased selection:bg-ciano/30">
+  <svg width="0" height="0" class="absolute" aria-hidden="true"><defs><symbol id="nebula-n" viewBox="0 0 100 100"><path fill="#8B93FF" d="M19.5 73C20.18 78.7 22.8 81.33 28.5 82C22.8 82.68 20.18 85.3 19.5 91C18.83 85.3 16.2 82.68 10.5 82C16.2 81.33 18.83 78.7 19.5 73Z"/><path fill="#FF6B61" d="M35.5 3C36.33 9.96 39.54 13.18 46.5 14C39.54 14.83 36.33 18.04 35.5 25C34.67 18.04 31.46 14.83 24.5 14C31.46 13.18 34.67 9.96 35.5 3Z"/><path fill="#22E5FA" d="M71.5 67C72.63 76.5 77.01 80.88 86.5 82C77.01 83.13 72.63 87.51 71.5 97C70.38 87.51 66 83.13 56.5 82C66 80.88 70.38 76.5 71.5 67Z"/><circle fill="#8B93FF" cx="21.42" cy="70.12" r="1.04"/><circle fill="#8B93FF" cx="22.41" cy="64.72" r="0.92"/><circle fill="#8B93FF" cx="23.47" cy="59.34" r="0.81"/><circle fill="#C57FB0" cx="24.61" cy="53.98" r="0.69"/><circle fill="#C57FB0" cx="25.81" cy="48.63" r="0.57"/><circle fill="#C57FB0" cx="27.09" cy="43.3" r="0.65"/><circle fill="#FF6B61" cx="28.44" cy="37.99" r="0.76"/><circle fill="#FF6B61" cx="29.86" cy="32.69" r="0.88"/><circle fill="#FF6B61" cx="31.36" cy="27.41" r="1"/><circle fill="#FF6B61" cx="41.26" cy="26.79" r="1.03"/><circle fill="#FF6B61" cx="42.86" cy="30.18" r="0.95"/><circle fill="#FF6B61" cx="44.49" cy="33.56" r="0.88"/><circle fill="#FF6B61" cx="46.14" cy="36.92" r="0.81"/><circle fill="#FF6B61" cx="47.81" cy="40.27" r="0.74"/><circle fill="#90A8AD" cx="49.52" cy="43.61" r="0.66"/><circle fill="#90A8AD" cx="51.24" cy="46.93" r="0.59"/><circle fill="#90A8AD" cx="52.99" cy="50.24" r="0.58"/><circle fill="#90A8AD" cx="54.77" cy="53.54" r="0.66"/><circle fill="#22E5FA" cx="56.57" cy="56.82" r="0.73"/><circle fill="#22E5FA" cx="58.4" cy="60.09" r="0.8"/><circle fill="#22E5FA" cx="60.25" cy="63.35" r="0.88"/><circle fill="#22E5FA" cx="62.13" cy="66.59" r="0.95"/><circle fill="#22E5FA" cx="74.9" cy="64.29" r="1.25"/><circle fill="#22E5FA" cx="76.28" cy="58.03" r="1.14"/><circle fill="#22E5FA" cx="77.75" cy="51.79" r="1.02"/><circle fill="#22E5FA" cx="79.32" cy="45.57" r="0.91"/><circle fill="#22E5FA" cx="80.98" cy="39.38" r="0.8"/><circle fill="#22E5FA" cx="82.73" cy="33.21" r="0.69"/><circle fill="#22E5FA" cx="84.57" cy="27.07" r="0.57"/><circle fill="#22E5FA" cx="86.5" cy="20.94" r="0.46"/><circle fill="#22E5FA" cx="88.52" cy="14.85" r="0.35"/></symbol><symbol id="nebula-n-p" viewBox="0 0 100 100"><path fill="#8B93FF" d="M19.5 73C20.18 78.7 22.8 81.33 28.5 82C22.8 82.68 20.18 85.3 19.5 91C18.83 85.3 16.2 82.68 10.5 82C16.2 81.33 18.83 78.7 19.5 73Z"/><path fill="#FF6B61" d="M35.5 3C36.33 9.96 39.54 13.18 46.5 14C39.54 14.83 36.33 18.04 35.5 25C34.67 18.04 31.46 14.83 24.5 14C31.46 13.18 34.67 9.96 35.5 3Z"/><path fill="#22E5FA" d="M71.5 67C72.63 76.5 77.01 80.88 86.5 82C77.01 83.13 72.63 87.51 71.5 97C70.38 87.51 66 83.13 56.5 82C66 80.88 70.38 76.5 71.5 67Z"/><circle fill="#8B93FF" cx="21.42" cy="70.12" r="2.71"/><circle fill="#C57FB0" cx="24.22" cy="55.76" r="1.89"/><circle fill="#C57FB0" cx="27.53" cy="41.53" r="1.78"/><circle fill="#FF6B61" cx="31.36" cy="27.41" r="2.6"/><circle fill="#FF6B61" cx="41.26" cy="26.79" r="2.67"/><circle fill="#FF6B61" cx="45.14" cy="34.9" r="2.21"/><circle fill="#90A8AD" cx="49.17" cy="42.94" r="1.76"/><circle fill="#90A8AD" cx="53.35" cy="50.9" r="1.56"/><circle fill="#22E5FA" cx="57.66" cy="58.79" r="2.01"/><circle fill="#22E5FA" cx="62.13" cy="66.59" r="2.47"/><circle fill="#22E5FA" cx="74.9" cy="64.29" r="3"/><circle fill="#22E5FA" cx="78.79" cy="47.64" r="2.28"/><circle fill="#22E5FA" cx="83.33" cy="31.16" r="1.56"/><circle fill="#22E5FA" cx="88.52" cy="14.85" r="0.84"/></symbol></defs></svg>
 
   <!-- Barra de navegação -->
   <header class="fixed inset-x-0 top-0 z-50">
-    <nav class="mx-auto mt-4 flex max-w-6xl items-center justify-between rounded-2xl px-4 py-3 glass sm:px-5" aria-label="Principal">
-      <a href="#" class="flex items-center gap-2.5 font-semibold tracking-tight">
-        <svg viewBox="0 0 24 24" class="h-6 w-6 stroke-gold" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h13v10H3zM8 19h13V9"/></svg>
-        Tela P2P
+    <nav class="mx-auto mt-4 flex max-w-6xl items-center justify-between rounded-2xl px-4 py-2.5 vidro sm:px-5" aria-label="Principal">
+      <a href="#" class="flex items-center font-bold tracking-tight text-[17px]" aria-label="Nebula, início da página">
+        <svg class="h-8 w-8" aria-hidden="true"><use href="#nebula-n-p"></use></svg><span class="-ml-1 translate-y-[3px]">ebula</span>
       </a>
-      <div class="hidden items-center gap-7 text-sm text-white/65 md:flex">
+      <div class="hidden items-center gap-7 text-sm text-white/60 md:flex">
         <a href="#recursos" class="hover:text-white">Recursos</a>
-        <a href="#como" class="hover:text-white">Como funciona</a>
-        <a href="#comparacao" class="hover:text-white">Comparação</a>
+        <a href="#transmissao" class="hover:text-white">Transmissão</a>
+        <a href="#temas" class="hover:text-white">Temas</a>
         <a href="#perguntas" class="hover:text-white">Perguntas</a>
       </div>
-      <a href="https://github.com/MateusMunhoz/AmostradinhoScreenShare/releases/latest/download/Tela.P2P.exe" data-dl class="rounded-xl bg-gold px-4 py-2 text-sm font-semibold text-ink transition hover:brightness-110">Baixar grátis</a>
+      <a href="https://github.com/MateusMunhoz/AmostradinhoScreenShare/releases/latest/download/Nebula.Instalador.exe" data-dl class="btn-marca rounded-xl px-4 py-2 text-sm font-semibold transition">Baixar grátis</a>
     </nav>
   </header>
 
   <main>
-    <!-- Herói -->
+    <!-- Topo -->
     <section class="relative overflow-hidden pt-36 sm:pt-44">
-      <div class="grid-bg pointer-events-none absolute inset-0" aria-hidden="true"></div>
-      <div class="glow-gold pointer-events-none absolute -top-40 left-1/2 h-[640px] w-[900px] -translate-x-1/2" aria-hidden="true"></div>
+      <div class="ceu pointer-events-none absolute inset-0 opacity-80" aria-hidden="true"></div>
+      <div class="nebulosa-lilas pointer-events-none absolute -top-48 left-1/2 h-[700px] w-[1000px] -translate-x-[60%]" aria-hidden="true"></div>
+      <div class="nebulosa-ciano pointer-events-none absolute -top-24 left-1/2 h-[560px] w-[760px] translate-x-[5%]" aria-hidden="true"></div>
       <div class="relative mx-auto max-w-6xl px-5 text-center">
-        <a href="#comparacao" class="reveal mx-auto inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5 text-xs text-white/75">
-          <span class="h-1.5 w-1.5 rounded-full bg-mint shadow-[0_0_10px_#A6D089]"></span>
-          4K de graça · sem conta · sem servidor de ninguém
+        <a href="#recursos" class="surgir mx-auto inline-flex items-center gap-2 rounded-full vidro px-3.5 py-1.5 text-xs text-white/75 hover:text-white">
+          <span class="rounded-full bg-ciano/15 px-2 py-0.5 font-mono text-[11px] uppercase tracking-widest text-ciano">Novo</span>
+          Nova versão: salas dos amigos ao vivo, mensagens e muito mais
         </a>
-        <h1 class="reveal mx-auto mt-7 max-w-4xl text-5xl font-bold leading-[1.02] tracking-[-0.035em] sm:text-7xl">
-          <span class="text-shine">Sua tela, direto</span><br><span class="text-gold">no PC dos amigos.</span>
+        <h1 class="surgir mx-auto mt-7 max-w-4xl text-5xl font-extrabold leading-[1.03] tracking-[-0.035em] sm:text-7xl">
+          <span class="texto-brilho">Sua tela, direto</span><br><span class="texto-marca">no PC dos amigos.</span>
         </h1>
-        <p class="reveal mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/60">
-          Transmita o jogo em até 4K, converse por voz com supressão de ruído por IA e mande mensagem sem sair da partida.
-          Tudo de PC para PC: nada passa por servidor de empresa nenhuma.
+        <p class="surgir mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/60">
+          Transmita a partida em até 4K, fale com a equipe com voz limpa e entre na sala de um amigo com um clique.
+          Sem assinatura e sem anúncios, com o vídeo e a voz indo direto de PC para PC.
         </p>
-        <div class="reveal mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a href="https://github.com/MateusMunhoz/AmostradinhoScreenShare/releases/latest/download/Tela.P2P.exe" data-dl data-dl-label class="beam inline-flex items-center gap-2.5 rounded-2xl bg-white/[.06] px-6 py-3.5 font-semibold text-white transition hover:bg-white/10">
+        <div class="surgir mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <a href="https://github.com/MateusMunhoz/AmostradinhoScreenShare/releases/latest/download/Nebula.Instalador.exe" data-dl data-dl-label class="btn-marca inline-flex items-center gap-2.5 rounded-2xl px-6 py-3.5 font-semibold transition">
             <span data-dl-icon><svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true"><path d="M3 5.5 10.5 4.5v7H3zM11.5 4.3 21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg></span>
             <span data-dl-text>Baixar para Windows</span>
           </a>
-          <a href="https://github.com/MateusMunhoz/AmostradinhoScreenShare" class="inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 font-medium text-white/70 transition hover:text-white">
-            Ver o código no GitHub
-            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+          <a href="#recursos" class="inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 font-medium text-white/70 transition hover:text-white">
+            Ver os recursos
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
           </a>
         </div>
-        <p class="reveal mt-4 text-xs text-white/45">
-          <span data-dl-alt-wrap>Também para <a data-dl-alt href="https://github.com/MateusMunhoz/AmostradinhoScreenShare/releases/latest/download/Tela-P2P.AppImage" class="text-white/70 underline decoration-white/20 underline-offset-4 hover:text-white">Linux (AppImage)</a> · </span>
-          <a href="https://github.com/MateusMunhoz/AmostradinhoScreenShare/releases" class="text-white/70 underline decoration-white/20 underline-offset-4 hover:text-white">todas as versões</a>
-          · o app se atualiza sozinho pela sala
+        <p class="surgir mt-4 text-xs text-white/45">
+          <span data-dl-alt-wrap>Prefere sem instalar? <a href="https://github.com/MateusMunhoz/AmostradinhoScreenShare/releases/latest/download/Nebula.exe" class="text-white/70 underline decoration-white/20 underline-offset-4 hover:text-white">Versão portátil (.exe)</a> · </span>
+          o app avisa e se atualiza sozinho
         </p>
 
-        <!-- Captura em destaque -->
-        <div class="reveal relative mx-auto mt-16 max-w-5xl">
-          <div class="glow-mint pointer-events-none absolute -bottom-20 -right-20 h-80 w-[600px]" aria-hidden="true"></div>
-          <div class="tilt relative rounded-2xl glass p-2 shot">
-            <img src="assets/sala.webp" width="1600" height="900" class="w-full rounded-xl" alt="A sala do Tela P2P: a Bia assiste ao jogo que a Ana transmite, com o chat e a voz ao lado">
+        <!-- Vídeo em destaque: várias telas ao vivo -->
+        <figure class="surgir relative mx-auto mt-16 max-w-5xl">
+          <div class="nebulosa-coral pointer-events-none absolute -bottom-24 -left-24 h-80 w-[560px]" aria-hidden="true"></div>
+          <div class="relative overflow-hidden rounded-2xl vidro p-1.5 janela">
+            <div class="flex items-center justify-between px-3 py-2 text-[11px] text-white/45">
+              <span class="flex items-center gap-1.5"><svg class="h-4 w-4" aria-hidden="true"><use href="#nebula-n-p"></use></svg>Nebula · sala do Flyleaf</span>
+              <span class="ao-vivo font-mono uppercase tracking-widest text-ciano">ao vivo</span>
+            </div>
+            <video class="w-full rounded-xl" src="assets/videos/2-transmitir-e-assistir.mp4" poster="assets/videos/2-transmitir-e-assistir.jpg"
+              width="1280" height="720" autoplay muted loop playsinline preload="metadata" data-video
+              aria-label="Três amigos transmitindo jogos ao mesmo tempo na sala do Nebula, uma tela em destaque e a janela de escolher o que transmitir"></video>
           </div>
-        </div>
+        </figure>
       </div>
 
       <!-- Números -->
-      <div class="relative mx-5 mt-20 grid max-w-5xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-4 lg:mx-auto">
-        <div class="bg-ink p-6 text-center"><div class="text-3xl font-bold tracking-tight">4K</div><div class="mt-1 text-sm text-white/50">de graça, sem assinatura</div></div>
-        <div class="bg-ink p-6 text-center"><div class="text-3xl font-bold tracking-tight">1×</div><div class="mt-1 text-sm text-white/50">codifica para todos (NVENC)</div></div>
-        <div class="bg-ink p-6 text-center"><div class="text-3xl font-bold tracking-tight">0</div><div class="mt-1 text-sm text-white/50">contas, anúncios ou documentos</div></div>
-        <div class="bg-ink p-6 text-center"><div class="text-3xl font-bold tracking-tight">P2P</div><div class="mt-1 text-sm text-white/50">direto de PC para PC</div></div>
-      </div>
+      <dl class="relative mx-5 mt-20 grid max-w-5xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-4 lg:mx-auto">
+        <div class="flex flex-col-reverse bg-ink p-6 text-center"><dt class="mt-1 text-sm text-white/50">de graça, sem assinatura</dt><dd class="text-3xl font-bold tracking-tight">4K <span class="text-base font-semibold text-white/50">30 fps</span></dd></div>
+        <div class="flex flex-col-reverse bg-ink p-6 text-center"><dt class="mt-1 text-sm text-white/50">codifica para todos (NVENC)</dt><dd class="text-3xl font-bold tracking-tight">1×</dd></div>
+        <div class="flex flex-col-reverse bg-ink p-6 text-center"><dt class="mt-1 text-sm text-white/50">mensagens criptografadas</dt><dd class="text-3xl font-bold tracking-tight">E2E</dd></div>
+        <div class="flex flex-col-reverse bg-ink p-6 text-center"><dt class="mt-1 text-sm text-white/50">anúncios ou assinatura</dt><dd class="text-3xl font-bold tracking-tight">0</dd></div>
+      </dl>
     </section>
 
-    <!-- Recursos (bento) -->
+    <!-- Recursos: três blocos com vídeo -->
     <section id="recursos" class="relative mx-auto max-w-6xl px-5 pt-32">
-      <div class="reveal max-w-2xl">
-        <p class="font-mono text-xs uppercase tracking-[.2em] text-gold">Recursos</p>
-        <h2 class="mt-3 text-4xl font-bold tracking-[-0.03em] sm:text-5xl">Feito para assistir e jogar junto.</h2>
-        <p class="mt-4 text-white/55">Tudo o que um grupo de amigos usa numa call, pensado para não pesar no jogo de quem transmite.</p>
+      <div class="surgir max-w-2xl">
+        <p class="font-mono text-xs uppercase tracking-[.25em] text-ciano">Recursos</p>
+        <h2 class="mt-3 text-4xl font-bold tracking-[-0.03em] sm:text-5xl">Feito para jogar junto.</h2>
+        <p class="mt-4 text-white/55">Tudo o que o grupo usa durante a partida, pensado para não tirar fps de quem transmite.</p>
       </div>
 
-      <div class="mt-12 grid gap-4 md:grid-cols-6">
-        <article class="reveal glass relative overflow-hidden rounded-3xl p-7 md:col-span-4">
-          <div class="flex items-center gap-2 text-sm text-gold">
-            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18v12H3zM8 21h8M12 17v4"/></svg>Transmissão de tela
-          </div>
-          <h3 class="mt-3 text-2xl font-semibold tracking-tight">Até 4K a 30 fps ou 1080p a 60 fps. De graça.</h3>
-          <p class="mt-3 max-w-lg text-white/55">Escolha a tela inteira ou só a janela do jogo, com o som do PC junto. Troque o que está transmitindo no meio da partida, sem ninguém cair.</p>
-          <img src="assets/transmitir.webp" width="1600" height="900" loading="lazy" class="mt-7 w-full rounded-xl border border-line" alt="Janela de transmitir: escolher a tela ou janela e a qualidade (Leve, Equilibrada, Máxima, 4K)">
-        </article>
+      <!-- 01 · Salas e amigos -->
+      <article class="mt-16 grid items-center gap-10 lg:grid-cols-12">
+        <div class="surgir lg:col-span-5">
+          <p class="font-mono text-xs uppercase tracking-[.25em] text-white/40"><span class="text-ciano">01</span> · Salas e amigos</p>
+          <h3 class="mt-3 text-3xl font-bold tracking-[-0.02em]">Veja quem está on e entre na partida com um clique.</h3>
+          <p class="mt-4 text-white/55">Quando um amigo abre uma sala, ela aparece no topo do seu Início com o selo <span class="ao-vivo font-mono text-xs uppercase tracking-widest text-ciano">ao vivo</span>. Você clica em <strong class="font-semibold text-white/80">Entrar na sala</strong> e já está dentro, na voz.</p>
+          <ul class="mt-6 space-y-3 text-sm text-white/70">
+            <li class="flex gap-3"><span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-ciano"></span>Modo Internet: sem VPN e sem abrir porta no roteador.</li>
+            <li class="flex gap-3"><span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-ciano"></span>Amigos entram sem digitar senha: o acesso vai só para quem é seu amigo.</li>
+            <li class="flex gap-3"><span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-ciano"></span>O que cada um está jogando e ouvindo, direto na lista de amigos.</li>
+            <li class="flex gap-3"><span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-ciano"></span>Você entra com a sua conta Google, sem criar senha: é por ela que os amigos te encontram.</li>
+          </ul>
+        </div>
+        <div class="surgir lg:col-span-7">
+          <video class="w-full rounded-2xl janela" src="assets/videos/1-salas-e-amigos.mp4" poster="assets/videos/1-salas-e-amigos.jpg"
+            width="1280" height="720" muted loop playsinline preload="none" data-video
+            aria-label="O Início do Nebula: amigos online com o jogo de cada um, a sala do Flyleaf aparecendo ao vivo e a entrada na sala com um clique"></video>
+        </div>
+      </article>
 
-        <article class="reveal glass rounded-3xl p-7 md:col-span-2">
-          <div class="flex items-center gap-2 text-sm text-mint">
-            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg>Uma vez só para todos
-          </div>
-          <h3 class="mt-3 text-xl font-semibold tracking-tight">A placa de vídeo codifica uma vez, e todo mundo recebe.</h3>
+      <!-- 02 · Voz e chat -->
+      <article class="mt-28 grid items-center gap-10 lg:grid-cols-12">
+        <div class="surgir lg:order-2 lg:col-span-5">
+          <p class="font-mono text-xs uppercase tracking-[.25em] text-white/40"><span class="text-lilas">02</span> · Voz e chat</p>
+          <h3 class="mt-3 text-3xl font-bold tracking-[-0.02em]">Voz limpa e chat sem sair do jogo.</h3>
+          <p class="mt-4 text-white/55">A supressão de ruído por IA roda no seu PC: teclado, ventilador e barulho da rua ficam de fora. Quem está falando acende na hora.</p>
+          <ul class="mt-6 space-y-3 text-sm text-white/70">
+            <li class="flex gap-3"><span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-lilas"></span>Cancelamento de eco, apertar para falar e volume de cada pessoa.</li>
+            <li class="flex gap-3"><span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-lilas"></span>Subsalas para separar times, e o céu da voz: cada canal é um sol, e quem fala brilha.</li>
+            <li class="flex gap-3"><span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-lilas"></span>Chat com arquivos de até 200 MB, para mandar o replay na hora.</li>
+            <li class="flex gap-3"><span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-lilas"></span><span><kbd class="rounded border border-white/15 bg-white/5 px-1.5 font-mono text-xs">Ctrl+Enter</kbd> escreve no chat por cima do jogo e devolve o teclado para a partida.</span></li>
+          </ul>
+        </div>
+        <div class="surgir lg:order-1 lg:col-span-7">
+          <video class="w-full rounded-2xl janela-lilas" src="assets/videos/3-voz-e-chat.mp4" poster="assets/videos/3-voz-e-chat.jpg"
+            width="1280" height="720" muted loop playsinline preload="none" data-video
+            aria-label="A voz do Nebula: quem fala acende, o céu da voz com a Voz geral e uma subsala, e o chat recebendo um vídeo de 84 MB"></video>
+        </div>
+      </article>
+
+      <!-- 03 · Mensagens e Ligar -->
+      <article class="mt-28 grid items-center gap-10 lg:grid-cols-12">
+        <div class="surgir lg:col-span-5">
+          <p class="font-mono text-xs uppercase tracking-[.25em] text-white/40"><span class="text-coral">03</span> · Mensagens e Ligar</p>
+          <h3 class="mt-3 text-3xl font-bold tracking-[-0.02em]">Fora da sala, a conversa continua.</h3>
+          <p class="mt-4 text-white/55">Mensagens privadas criptografadas de ponta a ponta: só você e o amigo leem. E, quando for a hora, um clique em <strong class="font-semibold text-white/80">Ligar</strong> junta os dois na voz.</p>
+          <ul class="mt-6 space-y-3 text-sm text-white/70">
+            <li class="flex gap-3"><span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-coral"></span>Com os dois online, vão direto de PC para PC, com imagens e arquivos.</li>
+            <li class="flex gap-3"><span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-coral"></span>Ligar cria uma sala só de vocês, com senha, e chama pelas mensagens.</li>
+            <li class="flex gap-3"><span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-coral"></span>Amigo offline? A chamada fica esperando nas mensagens.</li>
+          </ul>
+        </div>
+        <div class="surgir lg:col-span-7">
+          <video class="w-full rounded-2xl janela" src="assets/videos/4-mensagens-e-ligar.mp4" poster="assets/videos/4-mensagens-e-ligar.jpg"
+            width="1280" height="720" muted loop playsinline preload="none" data-video
+            aria-label="Uma conversa privada com o Flyleaf no Nebula e, em seguida, o clique em Ligar até os dois estarem na voz"></video>
+        </div>
+      </article>
+    </section>
+
+    <!-- Transmissão: o lado técnico -->
+    <section id="transmissao" class="relative mx-auto max-w-6xl px-5 pt-32">
+      <div class="surgir max-w-2xl">
+        <p class="font-mono text-xs uppercase tracking-[.25em] text-ciano">Transmissão</p>
+        <h2 class="mt-3 text-4xl font-bold tracking-[-0.03em] sm:text-5xl">Qualidade de streamer, sem pesar no seu jogo.</h2>
+      </div>
+      <div class="mt-12 grid gap-4 md:grid-cols-6">
+        <article class="surgir mira vidro rounded-3xl p-7 md:col-span-3">
+          <p class="font-mono text-xs uppercase tracking-[.2em] text-ciano">Resolução</p>
+          <h3 class="mt-3 text-2xl font-semibold tracking-tight">Até 4K a 30 fps ou 1080p a 60 fps.</h3>
+          <p class="mt-3 text-white/55">De graça, para todo mundo da sala. Escolha a tela inteira ou só a janela do jogo, com o som do PC junto.</p>
+        </article>
+        <article class="surgir mira vidro rounded-3xl p-7 md:col-span-3">
+          <p class="font-mono text-xs uppercase tracking-[.2em] text-ciano">Uma vez só</p>
+          <h3 class="mt-3 text-2xl font-semibold tracking-tight">A placa de vídeo codifica uma vez, e todos recebem.</h3>
           <p class="mt-3 text-white/55">Com NVENC, o custo de transmitir não cresce com o número de pessoas assistindo. O seu fps fica no jogo.</p>
         </article>
-
-        <article class="reveal glass rounded-3xl p-7 md:col-span-2">
-          <div class="flex items-center gap-2 text-sm text-gold">
-            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>Voz com IA
-          </div>
-          <h3 class="mt-3 text-xl font-semibold tracking-tight">Teclado, ventilador e rua ficam de fora.</h3>
-          <p class="mt-3 text-white/55">Supressão de ruído por IA rodando no seu PC, cancelamento de eco, apertar para falar (até com o botão do mouse) e volume de cada pessoa até 200%.</p>
+        <article class="surgir vidro rounded-3xl p-7 md:col-span-2">
+          <h3 class="text-lg font-semibold tracking-tight">Várias telas ao vivo</h3>
+          <p class="mt-2 text-sm text-white/55">Todo mundo pode transmitir junto. Uma tela fica grande e as outras seguem ao vivo numa coluna ao lado.</p>
         </article>
-
-        <article class="reveal glass relative overflow-hidden rounded-3xl p-7 md:col-span-4">
-          <div class="flex items-center gap-2 text-sm text-mint">
-            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18v14H3zM12 11h7v6h-7z"/></svg>Por cima do jogo
-          </div>
-          <h3 class="mt-3 text-2xl font-semibold tracking-tight">Janela flutuante e chat sem sair da partida.</h3>
-          <p class="mt-3 max-w-lg text-white/55">Deixe a tela do amigo num canto, por cima do jogo, e responda o chat com Ctrl+Enter. O teclado volta para o jogo quando você manda a mensagem.</p>
-          <img src="assets/voz.webp" width="1600" height="900" loading="lazy" class="mt-7 w-full rounded-xl border border-line" alt="Voz e atalhos aberto à esquerda, com a transmissão no meio e o chat à direita">
+        <article class="surgir vidro rounded-3xl p-7 md:col-span-2">
+          <h3 class="text-lg font-semibold tracking-tight">Troque sem parar</h3>
+          <p class="mt-2 text-sm text-white/55">Mude de janela ou de tela no meio da transmissão. Quem assiste vê a fonte nova em um instante, sem reconectar.</p>
         </article>
-
-        <article class="reveal glass rounded-3xl p-7 md:col-span-2">
-          <h3 class="text-lg font-semibold tracking-tight">Privacidade de verdade</h3>
-          <p class="mt-2 text-sm text-white/55">Sem conta e sem documento. Fotos, vídeos, PDFs e arquivos do Office vão pelo chat sem localização, autor nem pasta do PC.</p>
-        </article>
-        <article class="reveal glass rounded-3xl p-7 md:col-span-2">
-          <h3 class="text-lg font-semibold tracking-tight">A sala não cai com o host</h3>
-          <p class="mt-2 text-sm text-white/55">Se quem criou a sala sair, outra pessoa vira host sozinha e as telas continuam. Conexão caiu? Tela e voz voltam sozinhas.</p>
-        </article>
-        <article class="reveal glass rounded-3xl p-7 md:col-span-2">
-          <h3 class="text-lg font-semibold tracking-tight">Salas que aparecem sozinhas</h3>
-          <p class="mt-2 text-sm text-white/55">As sessões abertas na sua rede aparecem na tela inicial. Um clique e você está dentro, com foto de perfil e tudo.</p>
+        <article class="surgir vidro rounded-3xl p-7 md:col-span-2">
+          <h3 class="text-lg font-semibold tracking-tight">Só o som do jogo</h3>
+          <p class="mt-2 text-sm text-white/55">O som do PC vai junto com a tela, e dá para deixar de fora o app de voz e outros apps.</p>
         </article>
       </div>
     </section>
 
-    <!-- Como funciona -->
-    <section id="como" class="relative mx-auto max-w-6xl px-5 pt-32">
-      <div class="grid items-center gap-12 lg:grid-cols-2">
-        <div>
-          <p class="reveal font-mono text-xs uppercase tracking-[.2em] text-gold">Como funciona</p>
-          <h2 class="reveal mt-3 text-4xl font-bold tracking-[-0.03em] sm:text-5xl">Três passos e o grupo está junto.</h2>
-          <ol class="mt-10 space-y-6">
-            <li class="reveal flex gap-5">
-              <span class="grid h-10 w-10 flex-none place-items-center rounded-xl glass font-mono text-gold">01</span>
-              <div><h3 class="font-semibold">Baixe e abra</h3><p class="mt-1 text-white/55">Um executável só, sem instalar nada além dele. As atualizações chegam assinadas, até pela própria sala.</p></div>
-            </li>
-            <li class="reveal flex gap-5">
-              <span class="grid h-10 w-10 flex-none place-items-center rounded-xl glass font-mono text-gold">02</span>
-              <div><h3 class="font-semibold">Crie a sala ou entre na do amigo</h3><p class="mt-1 text-white/55">Pela Radmin VPN, pela rede local ou pela VPN própria do grupo. A sessão do amigo aparece na tela inicial.</p></div>
-            </li>
-            <li class="reveal flex gap-5">
-              <span class="grid h-10 w-10 flex-none place-items-center rounded-xl glass font-mono text-gold">03</span>
-              <div><h3 class="font-semibold">Transmita, assista e converse</h3><p class="mt-1 text-white/55">Clique em Transmitir, escolha a qualidade e pronto. Quem quiser assistir clica em Assistir ao lado do seu nome.</p></div>
-            </li>
-          </ol>
-        </div>
-        <div class="reveal relative">
-          <div class="glow-gold pointer-events-none absolute -inset-10" aria-hidden="true"></div>
-          <img src="assets/inicio.webp" width="1600" height="900" loading="lazy" class="relative w-full rounded-2xl glass p-2 shot" alt="Tela inicial: as sessões abertas na rede, com Criar sala e Entrar com endereço">
+    <!-- E mais -->
+    <section class="relative mx-auto max-w-6xl px-5 pt-28">
+      <div class="surgir max-w-2xl">
+        <p class="font-mono text-xs uppercase tracking-[.25em] text-lilas">E tem mais</p>
+        <h2 class="mt-3 text-3xl font-bold tracking-[-0.03em] sm:text-4xl">Os detalhes que fazem diferença na call.</h2>
+      </div>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <article class="surgir vidro rounded-3xl p-6">
+          <svg viewBox="0 0 24 24" class="h-6 w-6 text-ciano" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg>
+          <h3 class="mt-4 font-semibold">Clipes, como um replay</h3>
+          <p class="mt-2 text-sm text-white/55"><kbd class="rounded border border-white/15 bg-white/5 px-1.5 font-mono text-xs">Ctrl+Shift+C</kbd> salva os últimos 30 segundos da transmissão em MP4, com o som do jogo. De 15 s a 2 min.</p>
+        </article>
+        <article class="surgir vidro rounded-3xl p-6">
+          <svg viewBox="0 0 24 24" class="h-6 w-6 text-ciano" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18v14H3zM12 11h7v6h-7z"/></svg>
+          <h3 class="mt-4 font-semibold">Janela por cima do jogo</h3>
+          <p class="mt-2 text-sm text-white/55">Deixe a tela do amigo num canto, sempre por cima, com o clique passando direto para o jogo.</p>
+        </article>
+        <article class="surgir vidro rounded-3xl p-6">
+          <svg viewBox="0 0 24 24" class="h-6 w-6 text-lilas" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          <h3 class="mt-4 font-semibold">Música junto</h3>
+          <p class="mt-2 text-sm text-white/55">Cole um link do YouTube no canal de voz e quem clicar em Ouvir escuta junto, no mesmo ponto da música.</p>
+        </article>
+        <article class="surgir vidro rounded-3xl p-6">
+          <svg viewBox="0 0 24 24" class="h-6 w-6 text-lilas" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10a5 5 0 0 1 0 10H7A5 5 0 0 1 7 7zM7 11v3M5.5 12.5h3M16 12h.01M18 14h.01"/></svg>
+          <h3 class="mt-4 font-semibold">Modo gamer</h3>
+          <p class="mt-2 text-sm text-white/55">Um clique deixa o app leve para o jogo: prioridade normal, sem animações nem transparência. Voz e telas continuam.</p>
+        </article>
+        <article class="surgir vidro rounded-3xl p-6">
+          <svg viewBox="0 0 24 24" class="h-6 w-6 text-coral" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>
+          <h3 class="mt-4 font-semibold">Comando de voz</h3>
+          <p class="mt-2 text-sm text-white/55">Controle o app falando, até com o jogo na frente. Recurso extra: só baixa o que precisa se você ligar.</p>
+        </article>
+        <article class="surgir vidro rounded-3xl p-6">
+          <svg viewBox="0 0 24 24" class="h-6 w-6 text-coral" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6l4 6 5-4-2 10H5L3 8l5 4z"/></svg>
+          <h3 class="mt-4 font-semibold">A sala não cai com o host</h3>
+          <p class="mt-2 text-sm text-white/55">Se quem criou a sala sair, outra pessoa assume sozinha e as telas continuam. Conexão caiu? Tela e voz voltam sozinhas.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Temas -->
+    <section id="temas" class="relative mx-auto max-w-6xl px-5 pt-32">
+      <div class="surgir flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div class="max-w-2xl">
+          <p class="font-mono text-xs uppercase tracking-[.25em] text-ciano">Temas</p>
+          <h2 class="mt-3 text-4xl font-bold tracking-[-0.03em] sm:text-5xl">Sete temas. Um app.</h2>
+          <p class="mt-4 text-white/55">Do céu estrelado à cabine de um caça. Cada tema troca cores, fundo e, em alguns, até os sons. Cores, transparência e fonte também são suas.</p>
         </div>
       </div>
+      <ul class="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <li class="surgir vidro rounded-2xl p-5"><div class="flex gap-1.5"><span class="h-3 w-3 rounded-full bg-[#0B0D10] ring-1 ring-white/20"></span><span class="h-3 w-3 rounded-full bg-ciano"></span><span class="h-3 w-3 rounded-full bg-lilas"></span></div><h3 class="mt-4 font-semibold">Carta Estelar</h3><p class="mt-1 text-sm text-white/50">O padrão: céu estrelado e, de vez em quando, uma estrela cadente.</p></li>
+        <li class="surgir vidro rounded-2xl p-5"><div class="flex gap-1.5"><span class="h-3 w-3 rounded-full bg-black ring-1 ring-white/20"></span><span class="h-3 w-3 rounded-full bg-[#39ff6a]"></span><span class="h-3 w-3 rounded-full bg-[#f5c518]"></span></div><h3 class="mt-4 font-semibold">Top Gun</h3><p class="mt-1 text-sm text-white/50">Cabine de caça: radar na voz e chamadas de rádio de piloto.</p></li>
+        <li class="surgir vidro rounded-2xl p-5"><div class="flex gap-1.5"><span class="h-3 w-3 rounded-full bg-[#5b2a86]"></span><span class="h-3 w-3 rounded-full bg-[#ff8a1f]"></span><span class="h-3 w-3 rounded-full bg-[#7cf26b]"></span></div><h3 class="mt-4 font-semibold">E.V.A by Asock</h3><p class="mt-1 text-sm text-white/50">Cockpit do EVA-01: roxo e laranja, HUD e letreiros em japonês.</p></li>
+        <li class="surgir vidro rounded-2xl p-5"><div class="flex gap-1.5"><span class="h-3 w-3 rounded-full bg-[#0a0a0a] ring-1 ring-white/20"></span><span class="h-3 w-3 rounded-full bg-[#e5132b]"></span><span class="h-3 w-3 rounded-full bg-white"></span></div><h3 class="mt-4 font-semibold">Arasaka</h3><p class="mt-1 text-sm text-white/50">Corporativo e cyberpunk, em vermelho e preto.</p></li>
+        <li class="surgir vidro rounded-2xl p-5"><div class="flex gap-1.5"><span class="h-3 w-3 rounded-full bg-black ring-1 ring-white/20"></span><span class="h-3 w-3 rounded-full bg-[#ffcc33]"></span><span class="h-3 w-3 rounded-full bg-[#ff7a1a]"></span></div><h3 class="mt-4 font-semibold">Du'Sol</h3><p class="mt-1 text-sm text-white/50">Um pedaço gigante do Sol ao fundo, entre o amarelo e o laranja.</p></li>
+        <li class="surgir vidro rounded-2xl p-5"><div class="flex gap-1.5"><span class="h-3 w-3 rounded-full bg-white"></span><span class="h-3 w-3 rounded-full bg-ciano"></span><span class="h-3 w-3 rounded-full bg-[#8a5cf6]"></span></div><h3 class="mt-4 font-semibold">Di'Luna</h3><p class="mt-1 text-sm text-white/50">A Lua cheia com a borda acesa em ciano e véus roxos.</p></li>
+        <li class="surgir vidro rounded-2xl p-5"><div class="flex gap-1.5"><span class="h-3 w-3 rounded-full bg-[#3b2a1a]"></span><span class="h-3 w-3 rounded-full bg-[#c9a24a]"></span><span class="h-3 w-3 rounded-full bg-[#e8dcc0]"></span></div><h3 class="mt-4 font-semibold">Renascença</h3><p class="mt-1 text-sm text-white/50">Uma galeria: pinturas famosas ao fundo e molduras douradas.</p></li>
+        <li class="surgir rounded-2xl border border-dashed border-white/15 p-5"><h3 class="font-semibold text-white/80">Do seu jeito</h3><p class="mt-1 text-sm text-white/50">Vidro opaco, transparente ou líquido, quatro cores por hexadecimal, fontes e sons de cada aviso.</p></li>
+      </ul>
+    </section>
+
+    <!-- Como começar -->
+    <section id="como" class="relative mx-auto max-w-6xl px-5 pt-32">
+      <div class="surgir max-w-2xl">
+        <p class="font-mono text-xs uppercase tracking-[.25em] text-ciano">Como começar</p>
+        <h2 class="mt-3 text-4xl font-bold tracking-[-0.03em] sm:text-5xl">Três passos e o grupo está junto.</h2>
+      </div>
+      <ol class="mt-12 grid gap-4 md:grid-cols-3">
+        <li class="surgir vidro rounded-3xl p-7">
+          <span class="font-mono text-sm text-ciano">01</span>
+          <h3 class="mt-3 text-lg font-semibold">Baixe e instale</h3>
+          <p class="mt-2 text-sm text-white/55">O instalador não pede administrador. Prefere não instalar? Use a versão portátil. As atualizações chegam assinadas.</p>
+        </li>
+        <li class="surgir vidro rounded-3xl p-7">
+          <span class="font-mono text-sm text-ciano">02</span>
+          <h3 class="mt-3 text-lg font-semibold">Entre e adicione os amigos</h3>
+          <p class="mt-2 text-sm text-white/55">Entre com a sua conta Google, sem criar senha, e mande o seu link de amigo para o grupo.</p>
+        </li>
+        <li class="surgir vidro rounded-3xl p-7">
+          <span class="font-mono text-sm text-ciano">03</span>
+          <h3 class="mt-3 text-lg font-semibold">Abra a sala ou entre na do amigo</h3>
+          <p class="mt-2 text-sm text-white/55">A sala dos amigos aparece no seu Início, ao vivo. Clique em Transmitir, escolha a janela do jogo e pronto.</p>
+        </li>
+      </ol>
     </section>
 
     <!-- Comparação -->
     <section id="comparacao" class="relative mx-auto max-w-5xl px-5 pt-32">
-      <div class="reveal text-center">
-        <p class="font-mono text-xs uppercase tracking-[.2em] text-gold">Comparação</p>
+      <div class="surgir text-center">
+        <p class="font-mono text-xs uppercase tracking-[.25em] text-ciano">Comparação</p>
         <h2 class="mt-3 text-4xl font-bold tracking-[-0.03em] sm:text-5xl">O que vem de graça em cada um.</h2>
       </div>
-      <div class="reveal mt-12 overflow-x-auto rounded-3xl glass">
+      <div class="surgir mt-12 overflow-x-auto rounded-3xl vidro">
         <table class="w-full min-w-[640px] text-left text-sm">
           <thead class="text-white/50">
             <tr class="border-b border-line">
-              <th class="p-5 font-medium"></th>
-              <th class="p-5 font-semibold text-gold">Tela P2P</th>
-              <th class="p-5 font-medium">Discord (grátis)</th>
-              <th class="p-5 font-medium">TeamSpeak 6</th>
+              <th class="p-5 font-medium"><span class="sr-only">Recurso</span></th>
+              <th class="p-5 font-semibold text-ciano">Nebula</th>
+              <th class="p-5 font-medium">Apps de voz populares <span class="font-normal text-white/35">(plano grátis)</span></th>
+              <th class="p-5 font-medium">Apps de voz com servidor próprio</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-white/[.06] text-white/75">
-            <tr><td class="p-5 text-white/50">Transmissão de tela</td><td class="p-5 font-medium text-white">até 4K 30 / 1080p 60</td><td class="p-5">720p 30 (mais só com Nitro)</td><td class="p-5">até 4K (em beta)</td></tr>
-            <tr><td class="p-5 text-white/50">Conta</td><td class="p-5 font-medium text-white">não precisa</td><td class="p-5">obrigatória</td><td class="p-5">opcional</td></tr>
-            <tr><td class="p-5 text-white/50">Verificação de idade</td><td class="p-5 font-medium text-white">não</td><td class="p-5">em implantação desde set/2026</td><td class="p-5">não</td></tr>
-            <tr><td class="p-5 text-white/50">Onde passam seus dados</td><td class="p-5 font-medium text-white">direto entre os PCs</td><td class="p-5">servidores da empresa</td><td class="p-5">servidor da comunidade</td></tr>
-            <tr><td class="p-5 text-white/50">Codifica uma vez para todos</td><td class="p-5 font-medium text-white">sim (NVENC)</td><td class="p-5">—</td><td class="p-5">—</td></tr>
-            <tr><td class="p-5 text-white/50">Limpa metadados dos arquivos</td><td class="p-5 font-medium text-white">sim</td><td class="p-5">não</td><td class="p-5">não</td></tr>
-            <tr><td class="p-5 text-white/50">Celular</td><td class="p-5">ainda não</td><td class="p-5 font-medium text-white">sim</td><td class="p-5 font-medium text-white">sim</td></tr>
+            <tr><th scope="row" class="p-5 font-normal text-white/50">Transmissão de tela</th><td class="p-5 font-medium text-white">até 4K 30 / 1080p 60</td><td class="p-5">720p 30 (mais só pagando)</td><td class="p-5">até 4K (em beta)</td></tr>
+                        <tr><th scope="row" class="p-5 font-normal text-white/50">Verificação de idade</th><td class="p-5 font-medium text-white">não</td><td class="p-5">em implantação desde set/2026</td><td class="p-5">não</td></tr>
+            <tr><th scope="row" class="p-5 font-normal text-white/50">Por onde passam vídeo e voz</th><td class="p-5 font-medium text-white">direto entre os PCs</td><td class="p-5">servidores da empresa</td><td class="p-5">servidor da comunidade</td></tr>
+            <tr><th scope="row" class="p-5 font-normal text-white/50">Codifica uma vez para todos</th><td class="p-5 font-medium text-white">sim (NVENC)</td><td class="p-5">—</td><td class="p-5">—</td></tr>
+            <tr><th scope="row" class="p-5 font-normal text-white/50">Limpa metadados dos arquivos</th><td class="p-5 font-medium text-white">sim</td><td class="p-5">não</td><td class="p-5">não</td></tr>
+            <tr><th scope="row" class="p-5 font-normal text-white/50">Celular</th><td class="p-5">ainda não</td><td class="p-5 font-medium text-white">sim</td><td class="p-5 font-medium text-white">sim</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="reveal mt-4 text-center text-xs text-white/35">Situação em setembro de 2026, segundo as páginas oficiais e a imprensa. O Tela P2P tem versão para Windows e Linux; Mac ainda não.</p>
+      <p class="surgir mt-4 text-center text-xs text-white/35">Comparação com os apps de voz mais usados por quem joga, em setembro de 2026, segundo as páginas oficiais e a imprensa. O Nebula é para Windows; a versão para macOS está em desenvolvimento.</p>
     </section>
 
     <!-- Perguntas -->
     <section id="perguntas" class="relative mx-auto max-w-3xl px-5 pt-32">
-      <h2 class="reveal text-center text-4xl font-bold tracking-[-0.03em] sm:text-5xl">Perguntas frequentes</h2>
+      <h2 class="surgir text-center text-4xl font-bold tracking-[-0.03em] sm:text-5xl">Perguntas frequentes</h2>
       <div class="mt-10 space-y-3">
-        <details class="reveal group rounded-2xl glass p-5 open:pb-6">
-          <summary class="flex cursor-pointer list-none items-center justify-between font-medium">Preciso da Radmin VPN?<span class="text-white/40 transition group-open:rotate-45">+</span></summary>
-          <p class="mt-3 text-white/55">Na rede local (mesma casa ou mesmo Wi-Fi), não. Para amigos em outras casas, hoje você usa a Radmin VPN ou a VPN própria do grupo (Razze, com WireGuard). Entrar pela internet só com um convite, sem VPN, está no plano.</p>
+        <details id="nome" class="surgir group rounded-2xl vidro p-5 open:pb-6">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">Já usava a versão anterior?<span class="text-white/40 transition group-open:rotate-45" aria-hidden="true">+</span></summary>
+          <p class="mt-3 text-white/55">É o mesmo app, com nome novo e muitos recursos novos. Ele se atualiza sozinho e mantém as suas configurações, o histórico e os convites.</p>
         </details>
-        <details class="reveal group rounded-2xl glass p-5 open:pb-6">
-          <summary class="flex cursor-pointer list-none items-center justify-between font-medium">É seguro?<span class="text-white/40 transition group-open:rotate-45">+</span></summary>
-          <p class="mt-3 text-white/55">O vídeo e a voz vão criptografados direto entre os PCs, e as atualizações só são instaladas se a assinatura bater. Não existe conta, então não há senha nem documento seu guardado em lugar nenhum.</p>
+        <details class="surgir group rounded-2xl vidro p-5 open:pb-6">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">Preciso de VPN?<span class="text-white/40 transition group-open:rotate-45" aria-hidden="true">+</span></summary>
+          <p class="mt-3 text-white/55">Não. O padrão é o modo Internet: um servidor só apresenta as pessoas da sala, e o vídeo e a voz vão direto entre os PCs. Quando a rede de alguém não deixa a conexão direta, eles passam por um retransmissor, sempre criptografados. A Radmin VPN, a rede local e a VPN própria do grupo (WireGuard) continuam como opção.</p>
         </details>
-        <details class="reveal group rounded-2xl glass p-5 open:pb-6">
-          <summary class="flex cursor-pointer list-none items-center justify-between font-medium">Pesa no jogo?<span class="text-white/40 transition group-open:rotate-45">+</span></summary>
-          <p class="mt-3 text-white/55">Com uma placa NVIDIA, o modo "uma vez só" codifica na placa de vídeo e manda o mesmo vídeo para todo mundo. As telas que você não está vendo param de baixar vídeo sozinhas.</p>
+        <details class="surgir group rounded-2xl vidro p-5 open:pb-6">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">Precisa de conta?<span class="text-white/40 transition group-open:rotate-45" aria-hidden="true">+</span></summary>
+          <p class="mt-3 text-white/55">Sim: você entra com a sua conta Google, sem criar senha nova. É ela que liga você aos amigos: a lista de amigos, as salas deles no seu Início e as mensagens privadas.</p>
         </details>
-        <details class="reveal group rounded-2xl glass p-5 open:pb-6">
-          <summary class="flex cursor-pointer list-none items-center justify-between font-medium">Quanto de internet precisa?<span class="text-white/40 transition group-open:rotate-45">+</span></summary>
+        <details class="surgir group rounded-2xl vidro p-5 open:pb-6">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">É seguro?<span class="text-white/40 transition group-open:rotate-45" aria-hidden="true">+</span></summary>
+          <p class="mt-3 text-white/55">O vídeo e a voz vão criptografados entre os PCs, e as mensagens privadas são criptografadas de ponta a ponta: nem o servidor consegue ler. As atualizações só são instaladas se a assinatura bater, e fotos e arquivos mandados no chat vão sem localização nem autor.</p>
+        </details>
+        <details class="surgir group rounded-2xl vidro p-5 open:pb-6">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">Pesa no jogo?<span class="text-white/40 transition group-open:rotate-45" aria-hidden="true">+</span></summary>
+          <p class="mt-3 text-white/55">Com uma placa NVIDIA, o modo "uma vez só" codifica na placa de vídeo e manda o mesmo vídeo para todo mundo. As telas que você não está vendo param de baixar vídeo sozinhas, e o modo gamer deixa o app ainda mais leve.</p>
+        </details>
+        <details class="surgir group rounded-2xl vidro p-5 open:pb-6">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">Quanto de internet precisa?<span class="text-white/40 transition group-open:rotate-45" aria-hidden="true">+</span></summary>
           <p class="mt-3 text-white/55">Assistir em 1080p usa uns 5 a 7 Mbps. Para transmitir, conte isso por pessoa assistindo no modo normal, ou uma vez só no modo "uma vez só".</p>
         </details>
-        <details class="reveal group rounded-2xl glass p-5 open:pb-6">
-          <summary class="flex cursor-pointer list-none items-center justify-between font-medium">Tem para Linux, Mac ou celular?<span class="text-white/40 transition group-open:rotate-45">+</span></summary>
-          <p class="mt-3 text-white/55">Linux sim: baixe o AppImage, dê permissão de execução (<code class="font-mono text-white/70">chmod +x Tela-P2P.AppImage</code>) e abra. Mac e celular ainda não; assistir pelo navegador do celular está no plano.</p>
+        <details id="plataformas" class="surgir group rounded-2xl vidro p-5 open:pb-6">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">Tem para macOS ou celular?<span class="text-white/40 transition group-open:rotate-45" aria-hidden="true">+</span></summary>
+          <p class="mt-3 text-white/55">Hoje o Nebula é para Windows. Ainda não tem versão para macOS, mas ela está em desenvolvimento. No celular ainda não dá para entrar na sala, mas ele já guarda as suas configurações para levar a outro PC.</p>
         </details>
       </div>
     </section>
 
     <!-- Chamada final -->
     <section class="relative mx-auto max-w-6xl px-5 py-32">
-      <div class="reveal relative overflow-hidden rounded-[2rem] glass px-6 py-16 text-center sm:px-16">
-        <div class="glow-gold pointer-events-none absolute -top-40 left-1/2 h-96 w-[700px] -translate-x-1/2" aria-hidden="true"></div>
-        <h2 class="relative text-4xl font-bold tracking-[-0.03em] sm:text-5xl"><span class="text-shine">Chama os amigos.</span><br><span class="text-gold">A tela é sua.</span></h2>
-        <p class="relative mx-auto mt-5 max-w-xl text-white/55">Baixe o Tela P2P, crie uma sala e mande o endereço. Em um minuto vocês estão assistindo juntos.</p>
-        <a href="https://github.com/MateusMunhoz/AmostradinhoScreenShare/releases/latest/download/Tela.P2P.exe" data-dl data-dl-label class="beam relative mt-9 inline-flex items-center gap-2.5 rounded-2xl bg-gold px-7 py-3.5 font-semibold text-ink transition hover:brightness-110">
+      <div class="surgir relative overflow-hidden rounded-[2rem] vidro px-6 py-16 text-center sm:px-16">
+        <div class="ceu pointer-events-none absolute inset-0 opacity-70" aria-hidden="true"></div>
+        <div class="nebulosa-lilas pointer-events-none absolute -top-40 left-1/2 h-96 w-[700px] -translate-x-1/2" aria-hidden="true"></div>
+        <svg class="relative mx-auto h-16 w-16" aria-hidden="true"><use href="#nebula-n-p"></use></svg>
+        <h2 class="relative mt-4 text-4xl font-bold tracking-[-0.03em] sm:text-5xl"><span class="texto-brilho">Chame os amigos.</span><br><span class="texto-marca">A tela é sua.</span></h2>
+        <p class="relative mx-auto mt-5 max-w-xl text-white/55">Baixe o Nebula, adicione os amigos e abra a sala. Em um minuto vocês estão na mesma partida.</p>
+        <a href="https://github.com/MateusMunhoz/AmostradinhoScreenShare/releases/latest/download/Nebula.Instalador.exe" data-dl data-dl-label class="btn-marca relative mt-9 inline-flex items-center gap-2.5 rounded-2xl px-7 py-3.5 font-semibold transition">
           <span data-dl-icon><svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true"><path d="M3 5.5 10.5 4.5v7H3zM11.5 4.3 21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg></span>
           <span data-dl-text>Baixar para Windows</span>
         </a>
@@ -281,44 +406,58 @@
   <footer class="border-t border-line">
     <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-5 py-8 text-sm text-white/40 sm:flex-row">
       <div class="flex items-center gap-2">
-        <svg viewBox="0 0 24 24" class="h-5 w-5 stroke-gold" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h13v10H3zM8 19h13V9"/></svg>
-        Tela P2P · feito por amigos, para amigos
+        <svg class="h-6 w-6" aria-hidden="true"><use href="#nebula-n-p"></use></svg>
+        Nebula · feito por amigos, para amigos
       </div>
       <div class="flex gap-6">
-        <a href="https://github.com/MateusMunhoz/AmostradinhoScreenShare/releases" class="hover:text-white">Versões</a>
-        <a href="https://github.com/MateusMunhoz/AmostradinhoScreenShare" class="hover:text-white">GitHub</a>
-        <a href="https://github.com/MateusMunhoz/AmostradinhoScreenShare/blob/main/docs/guia.md" class="hover:text-white">Guia de uso</a>
+        <a href="#recursos" class="hover:text-white">Recursos</a>
+        <a href="#temas" class="hover:text-white">Temas</a>
+        <a href="#perguntas" class="hover:text-white">Perguntas</a>
       </div>
     </div>
   </footer>
 
   <script>
-    // Download pelo sistema de quem visita: Windows (.exe) ou Linux (.AppImage); Mac vai para a página de versões.
-    // Sem JavaScript, os botões baixam o .exe.
+    // Download pelo sistema de quem visita: no Windows, o instalador; nos outros, o botão leva à pergunta das
+    // plataformas (e a abre), dizendo que a versão para macOS está em desenvolvimento. Sem JavaScript, os botões
+    // baixam o instalador.
     (() => {
-      const base = 'https://github.com/MateusMunhoz/AmostradinhoScreenShare/releases';
-      const files = { windows: base + '/latest/download/Tela.P2P.exe', linux: base + '/latest/download/Tela-P2P.AppImage' };
-      const p = (navigator.userAgentData?.platform || navigator.platform || navigator.userAgent || '').toLowerCase();
-      const os = /android|iphone|ipad/.test(navigator.userAgent.toLowerCase()) ? 'mobile' : /linux|x11|cros/.test(p) ? 'linux' : /mac/.test(p) ? 'mac' : 'windows';
-      const linuxIcon = '<svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>';
-      const label = { windows: 'Baixar para Windows', linux: 'Baixar para Linux', mac: 'Ver as versões (sem Mac ainda)', mobile: 'Baixar no computador' }[os];
+      const ua = navigator.userAgent.toLowerCase();
+      const p = (navigator.userAgentData?.platform || navigator.platform || ua).toLowerCase();
+      const os = /android|iphone|ipad/.test(ua) ? 'celular' : /win/.test(p) ? 'windows' : /mac/.test(p) ? 'mac' : 'outro';
+      if (os === 'windows') return;
+      const rotulo = { celular: 'Disponível para Windows', mac: 'macOS: em desenvolvimento', outro: 'Disponível para Windows' }[os];
+      const icone = '<svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>';
       document.querySelectorAll('[data-dl]').forEach((a) => {
-        a.href = os === 'linux' ? files.linux : os === 'windows' ? files.windows : base + '/latest';
+        a.href = '#plataformas';
+        a.addEventListener('click', () => { document.getElementById('plataformas').open = true; });
         if (a.hasAttribute('data-dl-label')) {
-          a.querySelector('[data-dl-text]').textContent = label;
-          if (os !== 'windows') a.querySelector('[data-dl-icon]').innerHTML = linuxIcon;
+          a.querySelector('[data-dl-text]').textContent = rotulo;
+          a.querySelector('[data-dl-icon]').innerHTML = icone;
         }
       });
-      const alt = document.querySelector('[data-dl-alt]');
-      if (os === 'linux') { alt.href = files.windows; alt.textContent = 'Windows (.exe)'; }
-      else if (os !== 'windows') document.querySelector('[data-dl-alt-wrap]').hidden = true;
+      document.querySelector('[data-dl-alt-wrap]').hidden = true;
     })();
 
-    // Aparecer ao rolar (sem movimento para quem prefere assim)
+    // Aparecer ao rolar
     const io = new IntersectionObserver((entries) => {
-      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('dentro'); io.unobserve(e.target); }
     }, { rootMargin: '0px 0px -8% 0px' });
-    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    document.querySelectorAll('.surgir').forEach((el) => io.observe(el));
+
+    // Vídeos: só tocam (e só baixam) quando estão à vista. Quem prefere menos movimento vê a capa e os controles.
+    const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const videos = document.querySelectorAll('[data-video]');
+    if (calmo) videos.forEach((v) => { v.removeAttribute('autoplay'); v.pause(); v.controls = true; });
+    else {
+      const vio = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) { if (e.target.preload === 'none') e.target.preload = 'auto'; e.target.play().catch(() => {}); }
+          else e.target.pause();
+        }
+      }, { threshold: 0.35 });
+      videos.forEach((v) => vio.observe(v));
+    }
   </script>
 </body>
 </html>
